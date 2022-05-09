@@ -10,6 +10,7 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 
+
 function App() {
   return (
     <Router>
@@ -20,10 +21,26 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          {/* <Route path="/users">
+          <Route path="/attendance">
             <UserList />
+           
           </Route>
-          <Route path="/user/:userId">
+          <Route path="/transactions">
+            <User />
+          </Route>
+          <Route path="/reports">
+            <NewUser />
+          </Route>
+          <Route path="/mail">
+            <ProductList />
+          </Route>
+          <Route path="/feedback">
+            <Product />
+          </Route>
+          <Route path="/messages">
+            <NewProduct />
+          </Route>
+          {/* <Route path="/user/:userId">
             <User />
           </Route>
           <Route path="/newUser">
