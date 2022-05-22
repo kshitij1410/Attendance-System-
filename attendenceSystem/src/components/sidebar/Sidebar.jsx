@@ -37,50 +37,6 @@ export default function Sidebar() {
                 Attendance
               </li>
             </Link>
-
-            <Link to="/transactions" className="link">
-            <li className="sidebarListItem">
-              <AttachMoney className="sidebarIcon" />
-              Transactions
-            </li>
-            </Link>
-
-            <Link to="/reports" className="link">
-            <li className="sidebarListItem">
-              <BarChart className="sidebarIcon" />
-              Reports
-            </li>
-            </Link>
-          </ul>
-        </div>
-
-
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Notifications</h3>
-          <ul className="sidebarList">
-
-          <Link to="/mail" className="link">
-            <li className="sidebarListItem">
-              <MailOutline className="sidebarIcon" />
-              Mail
-            </li>
-            </Link>
-
-            <Link to="/feedback" className="link">
-            <li className="sidebarListItem">
-              <DynamicFeed className="sidebarIcon" />
-              Feedback
-            </li>
-
-            </Link>
-
-
-            <Link to="/messages" className="link">
-            <li className="sidebarListItem">
-              <ChatBubbleOutline className="sidebarIcon" />
-              Messages
-            </li>
-            </Link>
           </ul>
         </div>
 

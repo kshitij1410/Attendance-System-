@@ -10,7 +10,7 @@ import Detail from '../../components/Detail/detial';
 export default function Home() {
   return (
     <div className="home">
-      <FeaturedInfo />
+      {/* <FeaturedInfo /> */}
       
       <div className="homeWidgets">
       

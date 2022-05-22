@@ -1,16 +1,17 @@
-import React, {useState,useEffect} from 'react'
-import  "./videoEle.css"
+import React, { useState, useEffect } from 'react'
+import "./videoEle.css"
+// import Excel from '../excel/Excel.jsx'
 
 
+function VideoEle({ addToAttendance, attendance }) {
 
-function VideoEle({addToAttendance,attendance}) {
-  
 
   var people = [
-    { id: "1", name: "Lokesh" },
-    { id: "2", name: "Utsav" },
-    { id: "3", name: "Kshtij" },
-    { id: "4", name: "ritik" },
+    { id: "1", name: "Lokesh", rollNo: "19eskcs127", img: "/my_profile.JPG" },
+    // { id: "2", name: "Utsav",rollNo:"19eskcs133", img:"/vaibhav.jpeg" },
+    { id: "3", name: "Kshtij", rollNo: "19eskcs121", img: "/kshtij.jpeg" },
+    { id: "4", name: "ritik", rollNo: "19eskcs137", img: "/ritik.jpeg" },
+    { id: "5", name: "Prof. Mayank Sir", rollNo: "Aap Ko Kon Nhi Janta", img: "/mayankSir.jpg" }
   ]
 
 
@@ -33,7 +34,7 @@ function VideoEle({addToAttendance,attendance}) {
         if (isStudentExist) return prev;
 
 
-        return [...prev, student];
+        return [...prev, { ...student, time: new Date().toLocaleString() }];
       });
     }
 
@@ -149,19 +150,26 @@ function VideoEle({addToAttendance,attendance}) {
 
   return (
     <div className='face'>
-     
+
       <video controls id="video" width="720" height="560" autoPlay muted></video>
-      <div id="imgDiv">
-        <img width="200" height="200" src="./my_profile.JPG" className='image' id="1" dataval="1"></img>
-        <img width="200" height="200" src="./vaibhav.jpeg" className='image' id="2" dataval="2"></img>
-        <img width="200" height="200" src="./kshtij.jpeg" className='image' id="3" dataval="2"></img>
-        <img width="200" height="200" src="./ritik.jpeg" className='image' id="4" dataval="2"></img>
+      
+      <div id="imgDiv" >
+        {people.map((p) => {
+          return <img width="200" height="200" src={p.img} className='image' id={p.id} />
+        }
+        )}
+
       </div>
 
-      <button
-        onClick={() => {
-          startFaceRecognition();
-        }}>Start</button>
+
+      <div>
+        <button
+          onClick={() => {
+            startFaceRecognition();
+          }}>Start</button>
+         
+      </div>
+
 
 
 
