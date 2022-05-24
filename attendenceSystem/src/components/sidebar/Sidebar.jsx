@@ -37,6 +37,12 @@ export default function Sidebar() {
                 Attendance
               </li>
             </Link>
+            <Link to="/recent" className="link">
+              <li className="sidebarListItem">
+                <PermIdentity className="sidebarIcon" />
+                Recent Attendance
+              </li>
+            </Link>
           </ul>
         </div>
 

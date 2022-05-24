@@ -47,25 +47,17 @@ var dataSet2 = [
 
 export default function Excel({attendance}) {
     
-    
-        return (
-            
-            // {props.attendance.map((user)=>{
-            //     console.log(user)   
-            //    })
-            //    }
 
-             <ExcelFile element={<button>Download Excel File</button>}>
-              
+        return (
+             <ExcelFile element={<button  id="clickMe" style={{display:"none"}}
+             >Download Excel File</button>}>
                 <ExcelSheet data={attendance} name="Leaves">
                     <ExcelColumn label="Name" value="name" />
                     <ExcelColumn label="Id" value="id" />
                     <ExcelColumn label="Roll No." value="rollNo" />
                     <ExcelColumn label="Time" value="time" />
-                   
+                    <ExcelColumn label="Present" value="isPresent" />
                 </ExcelSheet>
             </ExcelFile>
-          
         );
-    
 }

@@ -1,19 +1,11 @@
+import { func } from 'prop-types';
 import React, { useState, useEffect } from 'react'
+import UserList from '../userList/UserList';
 import "./videoEle.css"
-// import Excel from '../excel/Excel.jsx'
 
 
-function VideoEle({ addToAttendance, attendance }) {
 
-
-  var people = [
-    { id: "1", name: "Lokesh", rollNo: "19eskcs127", img: "/my_profile.JPG" },
-    // { id: "2", name: "Utsav",rollNo:"19eskcs133", img:"/vaibhav.jpeg" },
-    { id: "3", name: "Kshtij", rollNo: "19eskcs121", img: "/kshtij.jpeg" },
-    { id: "4", name: "ritik", rollNo: "19eskcs137", img: "/ritik.jpeg" },
-    { id: "5", name: "Prof. Mayank Sir", rollNo: "Aap Ko Kon Nhi Janta", img: "/mayankSir.jpg" }
-  ]
-
+function VideoEle({ addToAttendance, attendance,people }) {
 
 
   function markPresent(id) {
@@ -34,13 +26,9 @@ function VideoEle({ addToAttendance, attendance }) {
         if (isStudentExist) return prev;
 
 
-        return [...prev, { ...student, time: new Date().toLocaleString() }];
+        return [...prev, { ...student, time: new Date().toLocaleString(), isPresent: true }];
       });
     }
-
-
-
-
 
   }
 
@@ -57,8 +45,6 @@ function VideoEle({ addToAttendance, attendance }) {
         .withFaceExpressions()
         .withFaceDescriptor()
 
-
-      console.log(detections);
       if (detections) {
         var labeledDescriptors = new window.faceapi.LabeledFaceDescriptors(
           name,
@@ -75,21 +61,17 @@ function VideoEle({ addToAttendance, attendance }) {
     let stream = null;
     try {
       stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      console.log(stream);
+
       videoElem.srcObject = stream;
       // await startFaceRecognition()
       let images = document.getElementsByClassName("image");
       for (let i = 0; i < images.length; i++) {
-        console.log(images[i], images[i].dataval);
+
         await processImage(images[i], images[i].id);
       }
 
-
-      // console.log(gLable); 
-      /* use the stream */
     } catch (err) {
       console.log(err);
-      /* handle the error */
     }
   }
 
@@ -102,14 +84,18 @@ function VideoEle({ addToAttendance, attendance }) {
       document.body.append(canvas)
       const displaySize = { width: videoElem.width, height: videoElem.height }
       window.faceapi.matchDimensions(canvas, displaySize)
-      console.log(gLable);
+
       setInterval(async () => {
+
         const detections = await window.faceapi.detectAllFaces(videoElem, new window.faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptors()
+        
         detections.forEach(async fd => {
           const bestMatch = faceMatcher.findBestMatch(fd.descriptor)
-          console.log("Finding face")
-          console.log(bestMatch._label);
-          await markPresent(bestMatch._label);
+          // console.log(bestMatch);
+          if(bestMatch._distance >= 0.5)
+          { 
+            await markPresent(bestMatch._label);
+          }
         })
 
         const resizedDetections = window.faceapi.resizeResults(detections, displaySize)
@@ -126,14 +112,52 @@ function VideoEle({ addToAttendance, attendance }) {
     }
   }
 
+  function downloadExcel() {
 
+    addToAttendance((attendance) => {
+
+
+      const markedAttendace = people.map(p => {
+      
+        let isfind = attendance.find((a) => {
+          // console.log("a.id", a.id)
+          if (a.id === p.id) {
+            return a;
+          }
+        })
+        // console.log(isfind)
+        if (isfind) {
+          return { ...isfind, isPresent: true };
+          
+        }
+        else {
+          // console.log("isfind",isfind);
+          return { ...p, time: new Date().toLocaleString(), isPresent: false };
+        }
+      })
+      console.log("markedAttendence", markedAttendace);
+      localStorage.setItem("attendance", JSON.stringify(markedAttendace));
+      window.location.href="/recent"
+      return markedAttendace;
+    })
+    // addToAttendance(markedAttendace);
+    
+    document.getElementById("clickMe").click();
+  }
+
+  function setTime(time) {
+    setTimeout(() => {
+
+      downloadExcel();
+     
+    }, time);
+  }
 
   useEffect(() => {
 
     videoElem = document.getElementById('video')
     queryImage1 = document.getElementById("image1");
-    // queryImage2=document.getElementById("image2");
-    console.log(videoElem);
+
     Promise.all([
       window.faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
       window.faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
@@ -141,10 +165,9 @@ function VideoEle({ addToAttendance, attendance }) {
       window.faceapi.nets.faceExpressionNet.loadFromUri('/models')
     ]).then(getMedia)
 
-    videoElem.addEventListener('play', () => {
-      startFaceRecognition();
-    })
-
+    // videoElem.addEventListener('play', () => {
+    //   startFaceRecognition();
+    // })
 
   }, [])
 
@@ -152,33 +175,36 @@ function VideoEle({ addToAttendance, attendance }) {
     <div className='face'>
 
       <video controls id="video" width="720" height="560" autoPlay muted></video>
-      
+
       <div id="imgDiv" >
         {people.map((p) => {
           return <img width="200" height="200" src={p.img} className='image' id={p.id} />
         }
         )}
-
       </div>
 
-
+    
       <div>
         <button
           onClick={() => {
+            localStorage.clear("attendance");
+            document.getElementById("start").innerHTML="Started"
             startFaceRecognition();
-          }}>Start</button>
-         
+          setTime(Number(document.getElementById("TimerValue").value) *60000);
+          }}>
+          <p id="start">Start</p>
+          </button>
+          <br/>
+          <label >Enter Time in Minutes: </label>
+          <input type="number" defaultValue="1" id="TimerValue"/>
+
+
       </div>
-
-
-
-
-
     </div>
   );
 }
 
-export default VideoEle
+export default VideoEle;
 
 
 
