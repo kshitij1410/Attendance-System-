@@ -7,10 +7,11 @@ function UserList() {
 
   var people = [
     { id: "1", name: "Lokesh", rollNo: "19eskcs127", img: "/my_profile.JPG" },
-    { id: "2", name: "Manish SutHAR", rollNo: "19eskcs133", img: "/manish.jpeg" },
-    { id: "3", name: "Kshtij", rollNo: "19eskcs121", img: "/kshtij.jpeg" },
-    { id: "4", name: "Mayank Sir", rollNo: "19eskcs137", img: "/ritik.jpeg" },
-    { id: "5", name: "Prof. Mayank Sir", rollNo: "1234", img: "/mayankSir.jpg" }
+    // { id: "2", name: "Manish SutHAR", rollNo: "19eskcs133", img: "/manish.jpeg" },
+    // { id: "3", name: "Kshtij", rollNo: "19eskcs121", img: "/kshtij.jpeg" },
+    // { id: "3", name: "Kshtij", rollNo: "19eskcs121", img: "/kshtij1.jpeg" },
+    // { id: "3", name: "Kshtij", rollNo: "19eskcs121", img: "/kshtij2.jpeg" },
+    { id: "3", name: "Kshtij", rollNo: "19eskcs121", img: "/kshtij3.jpeg" },
   ]
 
   const [attendance, addToAttendance] = useState([])

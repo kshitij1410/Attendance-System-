@@ -92,7 +92,7 @@ function VideoEle({ addToAttendance, attendance,people }) {
         detections.forEach(async fd => {
           const bestMatch = faceMatcher.findBestMatch(fd.descriptor)
           // console.log(bestMatch);
-          if(bestMatch._distance >= 0.5)
+          if(bestMatch._distance >= 0.4)
           { 
             await markPresent(bestMatch._label);
           }
@@ -164,11 +164,6 @@ function VideoEle({ addToAttendance, attendance,people }) {
       window.faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
       window.faceapi.nets.faceExpressionNet.loadFromUri('/models')
     ]).then(getMedia)
-
-    // videoElem.addEventListener('play', () => {
-    //   startFaceRecognition();
-    // })
-
   }, [])
 
   return (

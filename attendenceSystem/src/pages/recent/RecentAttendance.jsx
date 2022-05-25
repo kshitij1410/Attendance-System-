@@ -4,6 +4,10 @@ function RecentAttendance() {
 
     const arr = JSON.parse(localStorage.getItem("attendance"));
     console.log(arr);
+    if(!arr)
+    {
+        return <p>No Data</p>
+    }
     return (
         <>
             <table>
@@ -21,9 +25,8 @@ function RecentAttendance() {
                             <td>{index + 1}</td>
                             <td>{data.rollNo}</td>
                             <td>{data.name}</td>
-                            <td>{data.time}</td>
                             <td>{data.isPresent ? "Present" : "Absent"}</td>
-
+                            <td>{data.time}</td>
                         </tr>
                     )
 
